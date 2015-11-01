@@ -8,7 +8,7 @@
   "activationCommands": {
     "atom-workspace": "atom-autocomplete-erlang:toggle"
   },
-  "repository": "https://github.com/prokopiy/autocomplete-erlang.git",
+  "repository": "https://github.com/prokopiy/atom-autocomplete-erlang.git",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
