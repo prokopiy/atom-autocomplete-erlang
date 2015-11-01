@@ -1,4 +1,4 @@
-# atom-autocomplete-erlang package
+# autocomplete-erlang
 
 ## Features
 Autocompletion of
@@ -7,6 +7,8 @@ Autocompletion of
 
 ## Requirements
   Must be installed Erlang/OTP and path to 'erl' executable file must be defined in OS.
+
+  Recommended that your project has a standard directory structure with the design principles of OTP applications.
 
 ### Required packages
   [autocomplete-plus](https://atom.io/packages/autocomplete-plus)
