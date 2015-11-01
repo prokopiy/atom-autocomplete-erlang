@@ -1,9 +1,14 @@
 {
   "name": "atom-autocomplete-erlang",
   "main": "./lib/atom-autocomplete-erlang",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Erlang code autocompletions",
-  "keywords": ["erlang", "erl", "code", "autocomplete"],
+  "keywords": [
+    "erlang",
+    "erl",
+    "code",
+    "autocomplete"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prokopiy/atom-autocomplete-erlang.git"
