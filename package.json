@@ -1,0 +1,18 @@
+{
+  "name": "atom-autocomplete-erlang",
+  "main": "./lib/atom-autocomplete-erlang",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "keywords": [
+  ],
+  "activationCommands": {
+    "atom-workspace": "atom-autocomplete-erlang:toggle"
+  },
+  "repository": "https://github.com/atom/atom-autocomplete-erlang",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
