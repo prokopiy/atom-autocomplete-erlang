@@ -4,7 +4,10 @@
   "version": "0.2.0",
   "description": "Erlang code autocompletions",
   "keywords": [],
-  "repository": "https://github.com/prokopiy/atom-autocomplete-erlang.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prokopiy/atom-autocomplete-erlang.git"
+  },
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
@@ -16,5 +19,30 @@
       }
     }
   },
-  "dependencies": {}
+  "dependencies": {},
+  "readme": "# atom-autocomplete-erlang package\n\nA short description of your package.\n\n![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/prokopiy/atom-autocomplete-erlang/issues"
+  },
+  "homepage": "https://github.com/prokopiy/atom-autocomplete-erlang#readme",
+  "_id": "atom-autocomplete-erlang@0.2.0",
+  "_shasum": "9691fd0410288f921a5ae34f971223bfe927918d",
+  "_resolved": "file:..\\d-115101-13256-843dmf\\package.tgz",
+  "_from": "..\\d-115101-13256-843dmf\\package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib\\atom-autocomplete-erlang-view.coffee",
+        "lib\\atom-autocomplete-erlang.coffee",
+        "lib\\provider.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
 }
