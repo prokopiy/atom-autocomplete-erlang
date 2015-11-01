@@ -7,7 +7,9 @@
     "erlang",
     "erl",
     "code",
-    "autocomplete"
+    "autocomplete",
+    "auto",
+    "snippet"
   ],
   "repository": {
     "type": "git",
