@@ -2,15 +2,19 @@
   "name": "atom-autocomplete-erlang",
   "main": "./lib/atom-autocomplete-erlang",
   "version": "0.1.0",
-  "description": "A short description of your package",
+  "description": "Erlang code autocompletions",
   "keywords": [],
-  "activationCommands": {
-    "atom-workspace": "atom-autocomplete-erlang:toggle"
-  },
   "repository": "https://github.com/prokopiy/atom-autocomplete-erlang.git",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
+  },
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "getProvider"
+      }
+    }
   },
   "dependencies": {}
 }
