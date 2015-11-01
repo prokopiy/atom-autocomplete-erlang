@@ -146,7 +146,7 @@ module.exports =
 
 
 
-        if (text.length > 0 && text.indexOf('[') == 0) && text.match(res_pattern)?
+        if (text.length > 0 && text.indexOf('[{') == 0) && true# text.match(res_pattern)?
           # atom.notifications.addInfo "VALID PATTERN"
           tupples = text.match(tupple_pattern)
           # atom.notifications.addInfo "tupples=" + tupples.toString()
