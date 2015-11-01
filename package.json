@@ -1,7 +1,7 @@
 {
   "name": "atom-autocomplete-erlang",
   "main": "./lib/atom-autocomplete-erlang",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Erlang code autocompletions",
   "keywords": [
     "erlang",
