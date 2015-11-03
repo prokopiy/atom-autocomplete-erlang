@@ -26,7 +26,7 @@ module.exports =
       functionPrefix = @getFunctionPrefix(prefix)
       if modulename.length > 0
         # atom.notifications.addSuccess "modulename=" + modulename + "  functionPrefix=" + functionPrefix
-        return @execute_erl_module_info(path.dirname(editor.getPath()), editor, modulename, functionPrefix)
+        return @execute_erl_module_info(modulename, functionPrefix)
 
 
   getPrefix: ({editor, bufferPosition}) ->
@@ -54,10 +54,11 @@ module.exports =
     prefix.split(":", 2)[1]
 
 
-  execute_erl_module_info: (basePath, editor, module, functionPrefix) ->
+  execute_erl_module_info: (moduleName, functionPrefix) ->
     return new Promise (resolve) =>
       executablePath = 'erl'
       project_path = atom.project.getPaths()
+      paPaths = []
 
       findDirSlash = (text) ->
         if text.indexOf("/") > 0
@@ -65,26 +66,26 @@ module.exports =
         else
           "\\"
 
-      ds = findDirSlash(project_path.toString())
+      addAllPaths = (top) ->
+        ds = findDirSlash(project_path.toString())
+        # atom.notifications.addError "1:" + top
+        fl1 = fs.statSync top
+        if fl1.isDirectory()
+          # atom.notifications.addError "2:" + top + " is directory."
+          paPaths.push top
+          fs.readdirSync(top).filter(
+            (item) ->
+              addAllPaths(top+ds+item.toString())
+          )
 
-      # ds="\\"
-
-      project_deps_ebin = ""
-      fs.readdirSync(project_path.toString() + ds+"deps"+ds).filter(
-        (item) ->
-          project_deps_ebin += " " + project_path.toString() + ds+"deps"+ds + item + ds+"ebin"
-      )
-      paPaths = project_deps_ebin.replace(/(\r\n|\n|\r|\s)/gm,"");
-      # atom.notifications.addInfo "paPaths = " + paPaths.split(" ")
+      addAllPaths(project_path.toString())
 
       erlc_args = []
-      erlc_args.push "-pa", basePath
-      erlc_args.push "-pa", project_path.toString()
-      erlc_args.push "-pa", pa.trim() for pa in paPaths.split(" ") unless paPaths == ""
-      erlc_args.push '-noshell', '-eval', "io:format('~w~n', [#{module}:module_info(exports)])", '-s', 'init', 'stop'
+      erlc_args.push "-pa", x for x in paPaths
+      erlc_args.push '-noshell', '-eval', "io:format('~w~n', [#{moduleName}:module_info(exports)])", '-s', 'init', 'stop'
 
 
-      erl_args = ['-pa', project_path.toString(), '-noshell', '-eval', "io:format('~w~n', [#{module}:module_info(functions)])", '-s', 'init', 'stop']
+      # erl_args = ['-pa', project_path.toString(), '-noshell', '-eval', "io:format('~w~n', [#{module}:module_info(functions)])", '-s', 'init', 'stop']
       # atom.notifications.addInfo "#{erl_args}"
       # atom.notifications.addInfo "#{erlc_args}"
 
