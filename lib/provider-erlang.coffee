@@ -6,7 +6,7 @@ erlangReservedWords = ["after", "and", "andalso", "band", "begin", "bnot", "bor"
   "bsr", "bxor", "case", "catch", "cond", "div", "end", "fun", "if", "let", "not",
   "of", "or", "orelse", "receive", "rem", "try", "when", "xor"]
 
-
+erlangNamesPattern = /[a-z]+[a-zA-Z0-9_]*/
 
 
 module.exports =
@@ -21,7 +21,6 @@ module.exports =
 
     if prefix? and prefix.length > 0
       # atom.notifications.addSuccess "prfix=" + prefix
-      # atom.notifications.addSuccess @genFunctionSnippetArg("myFunction", 4)
       modulename = @getModuleName(prefix)
       functionPrefix = @getFunctionPrefix(prefix)
       if modulename.length > 0
@@ -86,7 +85,6 @@ module.exports =
       erlc_args.push "-pa", x for x in paPaths
       erlc_args.push '-noshell', '-eval', "io:format('~w~n', [#{moduleName}:module_info(exports)])", '-s', 'init', 'stop'
 
-
       # erl_args = ['-pa', project_path.toString(), '-noshell', '-eval', "io:format('~w~n', [#{module}:module_info(functions)])", '-s', 'init', 'stop']
       # atom.notifications.addInfo "#{erl_args}"
       # atom.notifications.addInfo "#{erlc_args}"
@@ -101,14 +99,16 @@ module.exports =
         res_pattern = /// (^)*
           \[
             \{
-            (([a-z]+[a-zA-Z0-9_]*)|(\'([a-zA-Z0-9_\-\/\$\^]*)\'))
+            ([a-z]+[a-zA-Z0-9_]*)
+            # (([a-z]+[a-zA-Z0-9_]*)|(\'([a-zA-Z0-9_\-\/\$\^]*)\'))
             \,
             ([0-9]+[0-9]*)*
             \}
             (
             \,
             \{
-            (([a-z]+[a-zA-Z0-9_]*)|(\'([a-zA-Z0-9_\-\/\$\^]*)\'))
+            ([a-z]+[a-zA-Z0-9_]*)
+            # (([a-z]+[a-zA-Z0-9_]*)|(\'([a-zA-Z0-9_\-\/\$\^]*)\'))
             \,
             ([0-9]+[0-9]*)
             \}
@@ -118,7 +118,8 @@ module.exports =
 
         tupple_pattern = ///
           \{
-          (([a-z]+[a-zA-Z0-9_]*)|(\'([a-zA-Z0-9_\-\/\$\^]*)\'))
+          ([a-z]+[a-zA-Z0-9_]*)
+          # (([a-z]+[a-zA-Z0-9_]*)|(\'([a-zA-Z0-9_\-\/\$\^]*)\'))
           \,
           ([0-9]+[0-9]*)
           \}
@@ -126,12 +127,10 @@ module.exports =
 
         tupple_to_object = (tupple) ->
           obj =
+            # name: "#{tupple.match(/([a-z]+[a-zA-Z0-9_]*)|(\'([a-zA-Z0-9_\-\/\$\^]*)\')/)}"
             name: "#{tupple.match(/[a-z]+[a-zA-Z0-9_]*/)}"
             arity: parseInt(tupple.match(/[0-9]+[0-9]*/), 10)
-          # if obj.name.indexOf("#{functionPrefix}", 0) == 0
-          #   atom.notifications.addError functionPrefix + " in " + obj.name + " = " + obj.name.indexOf "#{functionPrefix}", 0
 
-        # sFilter = (x) ->
         genFunctionSnippetArg= (functionName, arg) ->
           args = ""
           if arg > 0
@@ -141,19 +140,23 @@ module.exports =
           functionName + "(" + args + ")"
 
         object_to_suggestion = (aObj) ->
-          # atom.notifications.addInfo "object_to_suggestion=" + aObj.name + "/" + aObj.arity
-          suggestion =
-            snippet: genFunctionSnippetArg(aObj.name, aObj.arity)
-            replacementPrefix: "#{functionPrefix}"
-            type: 'function'
-
+          if aObj.name == "null"
+            # atom.notifications.addInfo "aObj.name == null" + aObj.name + "/" + aObj.arity
+            suggestion = []
+          else
+            suggestion =
+              snippet: genFunctionSnippetArg(aObj.name, aObj.arity)
+              replacementPrefix: "#{functionPrefix}"
+              type: 'function'
 
 
         if (text.length > 0 && text.indexOf('[{') == 0) && true# text.match(res_pattern)?
           # atom.notifications.addInfo "VALID PATTERN"
           tupples = text.match(tupple_pattern)
+          tupples.sort()
           # atom.notifications.addInfo "tupples=" + tupples.toString()
-          object_stack.push tupple_to_object(x) for x in tupples
+          for x in tupples
+            object_stack.push tupple_to_object(x)
           if "#{functionPrefix}".length > 0
             filtered_object_stack = object_stack.filter (x) -> x.name.indexOf("#{functionPrefix}", 0) == 0
           else
