@@ -89,7 +89,7 @@ module.exports =
 
       # erl_args = ['-pa', project_path.toString(), '-noshell', '-eval', "io:format('~w~n', [#{module}:module_info(functions)])", '-s', 'init', 'stop']
       # atom.notifications.addInfo "#{erl_args}"
-      atom.notifications.addInfo "#{erlc_args}"
+      # atom.notifications.addInfo "#{erlc_args}"
 
       suggestion_stack = []
       compile_result = ""
@@ -174,7 +174,7 @@ module.exports =
         options:
           cwd: project_path[0] # Should use better folder perhaps
         stdout: (data) ->
-          atom.notifications.addInfo('Test stdout:', detail: data, dismissable: {})
+          # atom.notifications.addInfo('Test stdout:', detail: data, dismissable: {})
           compile_result += data.replace(/(\r\n|\n|\r)/gm,"");
         exit: (code) ->
           # atom.notifications.addError "On exit to run #{compile_result}"
