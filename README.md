@@ -1,4 +1,4 @@
-# autocomplete-erlang
+# atom-autocomplete-erlang
 
 ## Features
   - Autocompletion of global module functions

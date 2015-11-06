@@ -3,7 +3,35 @@ fs = require 'fs'
 path = require 'path'
 RegexPatterns = require './regexp-patterns.coffee'
 
+erlangReservedWords = ["after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case", "catch",
+"cond", "div", "end", "fun", "if", "let", "not",  "of", "or", "orelse", "receive", "rem", "try", "when", "xor"]
+
+
 module.exports =
+
+  isModFunDef: ({editor, bufferPosition}) ->
+    regex = new RegExp("(" + "#{RegexPatterns.erlangNames}" + ")\:(" + "#{RegexPatterns.erlangNames}" + ")*", "g")
+    line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
+    L = line.split(new RegExp("#{RegexPatterns.erlangNameSplitter}", "g")).slice(-1)[0]
+    M = line.match(regex)?.slice(-1)[0] or ''
+    if M == L
+      M
+    else
+      ''
+
+  getModuleName: (prefix) ->
+    # atom.notifications.addSuccess prefix.toString()
+    name = prefix.split(":", 2)[0]
+    if name in erlangReservedWords
+      ''
+    else
+      name
+
+  getFunctionPrefix: (prefix) ->
+    # regex = /:([a-z]+[a-zA-Z0-9_]*)*/
+    # prefix.match(regex)?[0].trim()
+    prefix.split(":", 2)[1]
+
 
   getPromise: (moduleName, functionPrefix) ->
     return new Promise (resolve) =>
