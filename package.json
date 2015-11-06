@@ -1,7 +1,7 @@
 {
   "name": "atom-autocomplete-erlang",
   "main": "./lib/atom-autocomplete-erlang",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "Erlang code autocompletions",
   "keywords": [
     "erlang",
@@ -48,8 +48,7 @@
         "lib\\atom-autocomplete-erlang.coffee",
         "lib\\provider-erlang.coffee"
       ],
-      ".js": [
-      ]
+      ".js": []
     },
     "folders": []
   }
