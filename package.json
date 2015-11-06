@@ -40,13 +40,15 @@
     "version": 1,
     "dependencies": [],
     "extensions": {
+      ".json": [
+        "package.json"
+      ],
       ".coffee": [
         "lib\\atom-autocomplete-erlang-view.coffee",
         "lib\\atom-autocomplete-erlang.coffee",
         "lib\\provider-erlang.coffee"
       ],
-      ".json": [
-        "package.json"
+      ".js": [
       ]
     },
     "folders": []
