@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "autocomplete-plus": "^2.0.0",
-    "language-erlang": "^3.0.0",
+    "language-erlang": "^3.0.0"
   },
   "readmeFilename": "README.md",
   "bugs": {
