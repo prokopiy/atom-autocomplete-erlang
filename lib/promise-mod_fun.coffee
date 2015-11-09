@@ -8,6 +8,7 @@ erlangReservedWords = ["after", "and", "andalso", "band", "begin", "bnot", "bor"
 
 
 module.exports =
+  ModFunData: []
 
   isModFunDef: ({editor, bufferPosition}) ->
     regex = new RegExp("(" + "#{RegexPatterns.erlangNames}" + ")\:(" + "#{RegexPatterns.erlangNames}" + ")*", "g")
