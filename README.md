@@ -1,5 +1,7 @@
 # atom-autocomplete-erlang
 [![Build Status](https://travis-ci.org/prokopiy/atom-autocomplete-erlang.svg?branch=master)](https://travis-ci.org/prokopiy/atom-autocomplete-erlang)
+[![Package version!](https://img.shields.io/apm/v/atom-autocomplete-erlang.svg?)](https://atom.io/packages/atom-autocomplete-erlang)
+[![Dependencies!](https://img.shields.io/david/prokopiy/atom-autocomplete-erlang.svg?)](https://david-dm.org/prokopiy/atom-autocomplete-erlang)
 
 ## Features
   - Autocompletion of global module functions
