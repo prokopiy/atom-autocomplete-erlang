@@ -36,6 +36,7 @@ module.exports =
 
   getPromise: (moduleName, functionPrefix) ->
     return new Promise (resolve) =>
+      PromiseModFun = require './promise-mod_fun.coffee'
       erl = 'erl'
       project_path = atom.project.getPaths()
       paPaths = []
@@ -136,6 +137,14 @@ module.exports =
           # atom.notifications.addInfo "tupples=" + tupples.toString()
           for x in tupples
             object_stack.push tupple_to_object(x)
+
+          full_suggestion_stack = []
+          full_suggestion_stack.push object_to_suggestion(x) for x in object_stack
+          obj =
+            name: moduleName
+            data: full_suggestion_stack
+          PromiseModFun.ModFunData.push obj
+
           if "#{functionPrefix}".length > 0
             filtered_object_stack = object_stack.filter (x) -> x.name.indexOf("#{functionPrefix}", 0) == 0
           else
@@ -149,22 +158,48 @@ module.exports =
 
         suggestion_stack
 
+      inModFunData= (moduleName) ->
+        # atom.notifications.addError  "inModFunData: " + moduleName + " data = " + PromiseModFun.ModFunData
+        R = false
+        for x in PromiseModFun.ModFunData
+          # atom.notifications.addError  "inModFunData: " + moduleName + " data.name = " + x.name
+          if x.name == moduleName
+            R = true
+        return R
 
-      process = new BufferedProcess
-        command: erl
-        args: erl_args
-        options:
-          cwd: project_path[0] # Should use better folder perhaps
-        stdout: (data) ->
-          # atom.notifications.addInfo('Test stdout:', detail: data, dismissable: {})
-          compile_result += data.replace(/(\r\n|\n|\r)/gm,"");
-        exit: (code) ->
-          # atom.notifications.addError "On exit to run #{compile_result}"
-          parse_erl_module_info("#{compile_result}")
-          resolve suggestion_stack
-      process.onWillThrowError ({error,handle}) ->
-        atom.notifications.addError "Failed to run #{@executablePath}",
-          detail: "#{error.message}"
-          dismissable: true
-        handle()
-        resolve []
+      getFromModFunData= (moduleName) ->
+        # atom.notifications.addError  "getFromModFunData: " + moduleName
+        R = []
+        for x in PromiseModFun.ModFunData
+          if x.name == moduleName
+            R = x.data
+        R
+
+
+      if inModFunData(moduleName) && functionPrefix.length > 0
+        # atom.notifications.addError  "inModFunData: " + moduleName
+        suggestion_stack = getFromModFunData(moduleName)
+        F = suggestion_stack.filter (x) -> x.snippet.indexOf("#{functionPrefix}", 0) == 0
+        for x in F
+          x.replacementPrefix = "#{functionPrefix}"
+        resolve F
+
+      else
+        process = new BufferedProcess
+          command: erl
+          args: erl_args
+          options:
+            cwd: project_path[0] # Should use better folder perhaps
+          stdout: (data) ->
+            # atom.notifications.addInfo('Test stdout:', detail: data, dismissable: {})
+            compile_result += data.replace(/(\r\n|\n|\r)/gm,"");
+          exit: (code) ->
+            # atom.notifications.addError "On exit to run #{compile_result}"
+            parse_erl_module_info("#{compile_result}")
+            resolve suggestion_stack
+        process.onWillThrowError ({error,handle}) ->
+          atom.notifications.addError "Failed to run #{@executablePath}",
+            detail: "#{error.message}"
+            dismissable: true
+          handle()
+          resolve []
