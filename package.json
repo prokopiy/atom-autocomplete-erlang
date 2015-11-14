@@ -27,7 +27,6 @@
     }
   },
   "dependencies": {
-    "autocomplete-plus": "^2.0.0",
     "language-erlang": "^3.0.0"
   },
   "readmeFilename": "README.md",
@@ -47,7 +46,6 @@
         "package.json"
       ],
       ".coffee": [
-        "lib\\atom-autocomplete-erlang-view.coffee",
         "lib\\atom-autocomplete-erlang.coffee",
         "lib\\provider-erlang.coffee"
       ],
