@@ -26,9 +26,7 @@
       }
     }
   },
-  "dependencies": {
-    "atom-language-erlang": "^3.0.0"
-  },
+  "dependencies": {},
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/prokopiy/atom-autocomplete-erlang/issues"
