@@ -19,9 +19,7 @@ module.exports =
       M
     else
       ''
-
   getModuleName: (prefix) ->
-    # atom.notifications.addSuccess prefix.toString()
     name = prefix.split(":", 2)[0]
     if name in erlangReservedWords
       ''
@@ -41,26 +39,23 @@ module.exports =
       project_path = atom.project.getPaths()
       paPaths = []
 
-      findDirSlash = (text) ->
+      getPathSlash = (text) ->
         if text.indexOf("/") >= 0
           "/"
         else
           "\\"
 
-      addAllPaths = (top) ->
-        ds = findDirSlash(top)
-        # atom.notifications.addError "1:" + top
+      addAllProjectPaths = (top) ->
+        ds = getPathSlash(top)
         fl1 = fs.statSync top
         if fl1.isDirectory()
-          # atom.notifications.addError "2:" + top + " is directory."
           paPaths.push top
           fs.readdirSync(top).filter(
             (item) ->
-              # atom.notifications.addInfo "item  =" + top+ds+item.toString()
-              addAllPaths(top+ds+item.toString())
+              addAllProjectPaths(top+ds+item.toString())
           )
 
-      addAllPaths(project_path.toString())
+      addAllProjectPaths(project_path.toString())
 
       erl_args = []
       erl_args.push "-pa", x for x in paPaths
@@ -73,9 +68,8 @@ module.exports =
       compile_result = ""
 
 
-      parse_erl_module_info = (text) ->
-        object_stack = []
-        # atom.notifications.addInfo "#{text}"
+      parse_erl_module_info_result = (text) ->
+
         res_pattern = /// (^)*
           \[
             \{
@@ -134,7 +128,8 @@ module.exports =
           # atom.notifications.addInfo "VALID PATTERN"
           tupples = text.match(tupple_pattern)
           tupples.sort()
-          # atom.notifications.addInfo "tupples=" + tupples.toString()
+
+          object_stack = []
           for x in tupples
             object_stack.push tupple_to_object(x)
 
@@ -195,7 +190,7 @@ module.exports =
             compile_result += data.replace(/(\r\n|\n|\r)/gm,"");
           exit: (code) ->
             # atom.notifications.addError "On exit to run #{compile_result}"
-            parse_erl_module_info("#{compile_result}")
+            parse_erl_module_info_result("#{compile_result}")
             resolve suggestion_stack
         process.onWillThrowError ({error,handle}) ->
           atom.notifications.addError "Failed to run #{@executablePath}",
