@@ -27,7 +27,7 @@
     }
   },
   "dependencies": {
-    "language-erlang": "^3.0.0"
+    "atom-language-erlang": "^3.0.0"
   },
   "readmeFilename": "README.md",
   "bugs": {
