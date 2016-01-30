@@ -19,3 +19,5 @@
   [language-erlang](https://atom.io/packages/language-erlang)
   [autocomplete-plus](https://atom.io/packages/autocomplete-plus)
   [autocomplete-snippets](https://atom.io/packages/autocomplete-snippets)
+
+apm publish patch
